@@ -4,10 +4,11 @@ module Iklil
   class Parser
     class << self
       def parse(bytes, base_url:, encoding:)
-        format = detect(bytes)
-        return parse_json(bytes, base_url: base_url) if format == :json_feed
+        data = bytes.respond_to?(:read) ? bytes.read : bytes
+        format = detect(data)
+        return parse_json(data, base_url: base_url) if format == :json_feed
 
-        text = Preprocess.call(bytes, encoding: encoding)
+        text = Preprocess.call(data, encoding: encoding)
         document = xml_document(text)
         root = document.root
         return empty_feed(format, "feed has no root element") unless root
