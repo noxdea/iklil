@@ -187,10 +187,13 @@ module Iklil
         links = XML.children(entry, "link")
         link = links.find { |node| [nil, "alternate"].include?(XML.attribute(node, "rel")) }
         content_node = XML.child(entry, "content")
-        content_type = XML.attribute(content_node, "type").to_s.downcase
+        raw_content_type = XML.attribute(content_node, "type").to_s.downcase
         content = content_node && (content_node.has_elements? ? XML.inner_xml(content_node) : XML.deep_text(content_node))
-        content_type = :html if content_type.empty? || %w[html xhtml text/html application/xhtml+xml].include?(content_type)
-        content_type = :text if content_type == "text"
+        content_type = if %w[html xhtml text/html application/xhtml+xml].include?(raw_content_type) || (raw_content_type.empty? && content_node&.has_elements?)
+                         :html
+                       else
+                         :text
+                       end
         summary = XML.deep_text(XML.child(entry, "summary"))
         Entry.new(
           id: XML.path_text(entry, "id") || XML.resolve_url(XML.attribute(link, "href"), base_url) || stable_id(entry, content),
