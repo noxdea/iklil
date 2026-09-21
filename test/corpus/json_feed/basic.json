@@ -1,0 +1,1 @@
+{"version":"https://jsonfeed.org/version/1.1","title":"Example JSON Feed","home_page_url":"https://example.test/","feed_url":"https://example.test/feed.json","items":[{"id":"1","url":"https://example.test/posts/1","title":"First","content_text":"Hello"}]}

@@ -1,0 +1,70 @@
+module Iklil
+  VERSION: String
+
+  class Error < StandardError
+  end
+
+  class Diagnostic
+    attr_reader severity: Symbol
+    attr_reader message: String
+    attr_reader path: String?
+    def initialize: (severity: Symbol, message: String, path: String?) -> void
+    def warning?: () -> bool
+  end
+
+  class Enclosure
+    attr_reader url: String?
+    attr_reader type: String?
+    attr_reader length: Integer?
+    attr_reader duration: Integer?
+    attr_reader title: String?
+  end
+
+  class Entry
+    attr_reader id: String
+    attr_reader title: String?
+    attr_reader url: String?
+    attr_reader summary: String?
+    attr_reader content: String?
+    attr_reader content_type: Symbol
+    attr_reader published_at: Time?
+    attr_reader updated_at: Time?
+    attr_reader authors: Array[String]
+    attr_reader categories: Array[String]
+    attr_reader enclosures: Array[Enclosure]
+    attr_reader extensions: Hash[String, untyped]
+    def html?: () -> bool
+    def text?: () -> bool
+  end
+
+  class Feed
+    attr_reader title: String?
+    attr_reader subtitle: String?
+    attr_reader url: String?
+    attr_reader site_url: String?
+    attr_reader updated_at: Time?
+    attr_reader language: String?
+    attr_reader icon: String?
+    attr_reader authors: Array[String]
+    attr_reader entries: Array[Entry]
+    attr_reader format: Symbol?
+    attr_reader diagnostics: Array[Diagnostic]
+    def valid?: () -> bool
+  end
+
+  class Subscription
+    attr_reader title: String?
+    attr_reader xml_url: String
+    attr_reader html_url: String?
+    attr_reader type: String?
+    attr_reader text: String?
+    attr_reader description: String?
+    attr_reader language: String?
+  end
+
+  module_function
+  def parse: (String | IO, base_url: String?, encoding: Symbol | String | Encoding) -> Feed
+  def detect: (String | IO) -> Symbol?
+  def parse_opml: (String | IO) -> Array[Subscription]
+  def render_opml: (Array[Subscription], title: String) -> String
+end
