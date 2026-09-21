@@ -8,5 +8,6 @@ gemspec
 gem "irb"
 gem "rake", "~> 13.0"
 gem "rbs", "~> 3.0"
+gem "rexml"
 
 gem "rspec", "~> 3.0"
