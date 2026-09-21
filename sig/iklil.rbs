@@ -62,9 +62,8 @@ module Iklil
     attr_reader language: String?
   end
 
-  module_function
-  def parse: (String | IO, base_url: String?, encoding: Symbol | String | Encoding) -> Feed
-  def detect: (String | IO) -> Symbol?
-  def parse_opml: (String | IO) -> Array[Subscription]
-  def render_opml: (Array[Subscription], title: String) -> String
+  def self.parse: (String | IO, base_url: String?, encoding: Symbol | String | Encoding) -> Feed
+  def self.detect: (String | IO) -> Symbol?
+  def self.parse_opml: (String | IO) -> Array[Subscription]
+  def self.render_opml: (Array[Subscription], title: String) -> String
 end
